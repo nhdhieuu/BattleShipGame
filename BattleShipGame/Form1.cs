@@ -14,11 +14,13 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Timer = System.Windows.Forms.Timer;
 using Microsoft.VisualBasic.Devices;
+using System.Runtime.CompilerServices;
 
 namespace BattleShipGame
 {
     public partial class Form1 : Form
     {
+        
 
         System.Windows.Forms.Timer _gameTimer;
         System.Windows.Forms.Timer _enemyTimer;
@@ -28,8 +30,7 @@ namespace BattleShipGame
 
         Bitmap explosion = new Bitmap("Resources/boom02.png");
         Ship ship = new Ship(0, 0, 0, 0);
-        Image shipImage = Image.FromFile("Resources/ship01.png");
-
+        Image shipImage = Image.FromFile("Resources/spaceship.png");
 
         private bool isStart = false;
         int score;
@@ -43,6 +44,9 @@ namespace BattleShipGame
         List<Exploding> _explosionList = new List<Exploding>();
         public Form1()
         {
+            Bitmap backgroundImage = new Bitmap("Resources/SpaceBackGround.jpg");
+            this.BackgroundImage = backgroundImage;
+
             InitializeComponent();
             graphics = this.CreateGraphics();
             eGraphics = this.CreateGraphics();
@@ -52,7 +56,7 @@ namespace BattleShipGame
 
             _gameTimer = new Timer();
             _gameTimer.Enabled = true;
-            _gameTimer.Interval = 50;
+            _gameTimer.Interval = 16;
             _gameTimer.Tick += new EventHandler(_gametimer_Tick);
 
 
@@ -86,7 +90,7 @@ namespace BattleShipGame
             shipRun();
             if (!isStart)
             {
-                ship.SetShip(this.Width / 2, this.Height - 100, shipImage.Width / 6, shipImage.Height / 6);
+                ship.SetShip(this.Width / 2, this.Height - 100, shipImage.Width / 10, shipImage.Height / 10);
                 graphics.DrawImage(shipImage, ship.p.X - ship.width / 2, ship.p.Y - ship.height / 2, ship.width, ship.height);
                 isStart = true;
             }
@@ -107,84 +111,73 @@ namespace BattleShipGame
                     i--;
 
                 }
+                for (int j = 0; j < _bulletList.Count; j++)
+                {
+                    Rectangle bulRec = new Rectangle(_bulletList[j].p.X - _bulletList[j].width / 2, _bulletList[j].p.Y - _bulletList[j].height / 2 - 20, _bulletList[j].width, _bulletList[j].height);
+                    if (enRec.IntersectsWith(bulRec))
+                    {
+                        _bulletList.RemoveAt(j);
+                        Exploding ex = new Exploding(_enemyList[i].p.X, _enemyList[i].p.Y, _enemyList[i].width);
+                        _enemyList.RemoveAt(i);
+                        j--;
+                        i--;
+                        score += 10;
+                        _explosionList.Add(ex);
+
+                    }
+
+                }
+
+                if (enRec.IntersectsWith(shpRec))
+                {
+                    _enemyList.RemoveAt(i);
+                    i--;
+                    Exploding ex = new Exploding(ship.p.X, ship.p.Y, ship.width);
+                    ex.isShip = true;
+                    _explosionList.Add(ex);
+                    ship.SetShip(0, 0, 0, 0);
+                    MessageBox.Show("Game Over!");
+                }
+
+            }
+            for (int i = 0; i < _bulletList.Count; i++)
+            {
+                _bulletList[i].p.Y -= _bulletList[i].speed;
+                if (_bulletList[i].p.Y < -20)
+                {
+
+                    _bulletList.RemoveAt(i);
+                    i--;
+                }
             }
 
-            //    for (int j = 0; j < bullet_list.Count; j++)
-            //    {
-            //        Rectangle bulRec = new Rectangle(bullet_list[j].p.X - bullet_list[j].wi / 2, bullet_list[j].p.Y - bullet_list[j].he / 2 - 20, bullet_list[j].wi, bullet_list[j].he);
-            //        if (enRec.IntersectsWith(bulRec))
-            //        {
-            //            enemi_list[i].HP -= bullet_list[j].dame;
-            //            if (bullet_list[j].type != 4)
-            //            {
-            //                bullet_list.RemoveAt(j);
-            //                j--;
-            //            }
-            //            Explosion ex = new Explosion(enemi_list[i].p.X, enemi_list[i].p.Y, enemi_list[i].wi);
-            //            if (enemi_list[i].HP <= 0)
-            //            {
-            //                score += enemi_list[i].type * 10;
 
-            //                enemi_list.RemoveAt(i);
-
-            //                i--;
-
-            //            }
-            //            explosion_list.Add(ex);
-
-            //        }
-            //    }
-            //    if (enRec.IntersectsWith(shpRec))
-            //    {
-            //        enemi_list.RemoveAt(i);
-            //        i--;
-            //        Explosion ex = new Explosion(ship.p.X, ship.p.Y, ship.wi);
-            //        ex.isShip = true;
-            //        explosion_list.Add(ex);
-            //        ship.setShip(0, 0, 0, 0);
-            //        game_timer.Interval = 300;
-            //        loose();
-
-            //    }
-            //}
-
-            //for (int i = 0; i < bullet_list.Count; i++)
-            //{
-            //    bullet_list[i].p.Y -= bullet_list[i].speed;
-            //    if (bullet_list[i].p.Y < -20)
-            //    {
-
-            //        bullet_list.RemoveAt(i);
-            //        i--;
-            //    }
-            //}
-            
         }
+
         private void shipRun()
         {
-            //double velocity = /*(speed: pixels per seconds)*/ 150 * /*(timer tick time in seconds)*/ 0.05;
+            double velocity = /*(speed: pixels per seconds)*/ 300 * /*(timer tick time in seconds)*/ 0.016;
 
-            //if ()
-            //{
-            //    if (ship.p.Y - ship.he / 2 > 0)
-
-            //        ship.p.Y -= (int)velocity;
-            //}
-            //if (Keyboard.IsKeyDown(Keys.Down))
-            //{
-            //    if (ship.p.Y + ship.he / 2 + 50 <= this.Height)
-            //        ship.p.Y += (int)velocity;
-            //}
-            //if (Keyboard.IsKeyDown(Keys.Left))
-            //{
-            //    if (ship.p.X - ship.wi / 2 - 5 > 0)
-            //        ship.p.X -= (int)velocity;
-            //}
-            //if (Keyboard.IsKeyDown(Keys.Right))
-            //{
-            //    if (ship.p.X + ship.wi / 2 + 20 <= this.Width)
-            //        ship.p.X += (int)velocity;
-            //}
+            if (Keyboard.IsKeyDown(Keys.Up))
+            {
+                if (ship.p.Y - ship.height / 2 > 0)
+                    ship.p.Y -= (int)velocity;
+            }
+            if (Keyboard.IsKeyDown(Keys.Down))
+            {
+                if (ship.p.Y + ship.height / 2 + 50 <= this.Height)
+                    ship.p.Y += (int)velocity;
+            }
+            if (Keyboard.IsKeyDown(Keys.Left))
+            {
+                if (ship.p.X - ship.width / 2 - 5 > 0)
+                    ship.p.X -= (int)velocity;
+            }
+            if (Keyboard.IsKeyDown(Keys.Right))
+            {
+                if (ship.p.X + ship.width / 2 + 20 <= this.Width)
+                    ship.p.X += (int)velocity;
+            }
 
         }
 
@@ -192,11 +185,24 @@ namespace BattleShipGame
         {
             Random rd = new Random();
             int x = rd.Next(50, this.Width - 50);
-            Enemy enemy = new Enemy(x, 0);
-            enemy.eImage = Image.FromFile("Resources/bullet.png");
+            Enemy enemy = new Enemy(x, 0, 150, 150);
+            enemy.eImage = Image.FromFile("Resources/enemy.png");
             _enemyList.Add(enemy);
         }
+        private void Shoot()
+        {
+            Bullet bl = new Bullet(ship.p.X, ship.p.Y - ship.height / 2 + 20);
+            bl.bImage = Image.FromFile("Resources/bullet.png");
+            _bulletList.Add(bl);
 
+
+            // Nếu nút Space vẫn được giữ, lặp lại hàm Shoot
+            if (_isSpacePressed)
+            {
+                Shoot();
+            }
+
+        }
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
             if (!_gameTimer.Enabled)
@@ -211,9 +217,82 @@ namespace BattleShipGame
             {
                 e.Graphics.DrawImage(bullet.bImage, bullet.p.X - bullet.width / 2, bullet.p.Y - bullet.height / 2, bullet.width, bullet.height);
             }
+            for (int i = 0; i < _explosionList.Count; i++)
+            {
+                if (_explosionList[i].indexE <= 25)
+                {
+                    mExplosion(_explosionList[i]);
+                    e.Graphics.DrawImageUnscaled(backBuffer, 0, 0);
+                }
+                else
+                {
+                    _explosionList.RemoveAt(i);
+                    i--;
+                }
+            }
+            e.Graphics.DrawImage(shipImage, ship.p.X - ship.width / 2, ship.p.Y - ship.height / 2, ship.width, ship.height);
 
-            
+
 
         }
+        public static class Keyboard
+        {
+            private static readonly HashSet<Keys> keys = new HashSet<Keys>();
+
+            public static void OnKeyDown(object sender, KeyEventArgs e)
+            {
+                if (keys.Contains(e.KeyCode) == false)
+                {
+                    keys.Add(e.KeyCode);
+                }
+            }
+
+            public static void OnKeyUp(object sender, KeyEventArgs e)
+            {
+                if (keys.Contains(e.KeyCode))
+                {
+                    keys.Remove(e.KeyCode);
+                }
+            }
+
+            public static bool IsKeyDown(Keys key)
+            {
+                return keys.Contains(key);
+            }
+
+        }
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (!_gameTimer.Enabled)
+                return;
+            Keyboard.OnKeyDown(sender, e);
+
+            if (e.KeyCode == Keys.Space)
+            {
+                if (_isSpacePressed == false)
+                {
+                    Shoot();
+                }
+
+                _isSpacePressed = true;
+            }
+
+        }
+        private void Form1_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (!_gameTimer.Enabled)
+                return;
+
+            Keyboard.OnKeyUp(sender, e);
+            if (e.KeyCode == Keys.Space)
+            {
+                _isSpacePressed = false;
+            }
+        }
+
+
+
     }
+
 }
+

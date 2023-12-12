@@ -41,6 +41,12 @@
     <None Update="Resources\bullet.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Resources\enemy.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\SpaceBackGround.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\spaceship.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

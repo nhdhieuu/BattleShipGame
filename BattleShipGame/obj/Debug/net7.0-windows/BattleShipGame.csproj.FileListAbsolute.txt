@@ -19,3 +19,5 @@ D:\UIT\C#\BattleShipGame\BattleShipGame\bin\Debug\net7.0-windows\Resources\boom0
 D:\UIT\C#\BattleShipGame\BattleShipGame\bin\Debug\net7.0-windows\Resources\spaceship.png
 D:\UIT\C#\BattleShipGame\BattleShipGame\bin\Debug\net7.0-windows\Resources\ship01.png
 D:\UIT\C#\BattleShipGame\BattleShipGame\bin\Debug\net7.0-windows\Resources\bullet.png
+D:\UIT\C#\BattleShipGame\BattleShipGame\bin\Debug\net7.0-windows\Resources\enemy.png
+D:\UIT\C#\BattleShipGame\BattleShipGame\bin\Debug\net7.0-windows\Resources\SpaceBackGround.jpg

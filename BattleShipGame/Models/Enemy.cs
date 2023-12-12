@@ -12,11 +12,13 @@ namespace BattleShipGame.Models
         public Image eImage;
         public int width, height;
         public int speed;
-        public Enemy(int px, int py)
+        public Enemy(int px, int py,int _width,int _height)
         {
             this.p.X = px;
             this.p.Y = py;
-
+            this.width = _width;
+            this.height = _height;
+            this.speed = 10;
         }
     }
 }

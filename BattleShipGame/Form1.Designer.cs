@@ -32,6 +32,7 @@
             moveTimer = new System.Windows.Forms.Timer(components);
             MeteorTimer = new System.Windows.Forms.Timer(components);
             scoreBox = new Label();
+            label1 = new Label();
             SuspendLayout();
             // 
             // moveTimer
@@ -43,21 +44,34 @@
             // 
             scoreBox.AutoSize = true;
             scoreBox.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            scoreBox.Location = new Point(37, 65);
+            scoreBox.Location = new Point(83, 32);
             scoreBox.Name = "scoreBox";
             scoreBox.Size = new Size(24, 28);
             scoreBox.TabIndex = 3;
             scoreBox.Text = "0";
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            label1.Location = new Point(12, 32);
+            label1.Name = "label1";
+            label1.Size = new Size(75, 28);
+            label1.TabIndex = 4;
+            label1.Text = "Score: ";
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(564, 739);
+            Controls.Add(label1);
             Controls.Add(scoreBox);
             Name = "Form1";
             Text = "Form1";
             Paint += Form1_Paint;
+            KeyDown += Form1_KeyDown;
+            KeyUp += Form1_KeyUp;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -66,5 +80,6 @@
         private System.Windows.Forms.Timer moveTimer;
         private System.Windows.Forms.Timer MeteorTimer;
         private Label scoreBox;
+        private Label label1;
     }
 }
